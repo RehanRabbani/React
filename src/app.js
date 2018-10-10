@@ -1,58 +1,93 @@
-console.log("hello");
-
-const app ={
-    title:'heading',
-    subtitle:'subheading',
-    options:[]
-}
-function getLength(){
-    if(app.options.length > 0 )
- {   return <p> here are your opption</p>;}
-
-else 
-    {return 'no option';}
-
-}
-const onFormSubmit = (e) =>{
-    e.preventDefault();         //this prevent page to refresh
-    const option = e.target.elements.option.value; //target input feild
-
-    if(option){
-        app.options.push(option);
-        e.target.elements.option.value = '';
-        reRender();
-    }
-};
-const removeAll =()=>{
-    app.options=[];
-    reRender();
-
-}
-var appRoot = document.getElementById('app');
-let reRender =() =>{
-    const tempalate = (
-        <div>
-            <h1>{app.title  }</h1>
-            {app.subtitle && <p>{app.subtitle}</p> }
-            {getLength()}
-            <p>{app.options.length}</p>
-            <button onClick={removeAll}> Remove All </button>
-            <ol>
-              {app.options.map((option)=>{
-                return <li key={option}>{option}</li>
-
-            })}
-            </ol>
-            <form onSubmit={onFormSubmit}>
-                <input type="text" name="option" />
-                <button>ADD option</button>
-            </form>
-        </div>
-        
-        
+class IndecisionApp extends React.Component{
+    render(){
+        let title = "Indecision App";
+        let subtitle = "salam";
+        const array =['item one','item two','item three'];
+        return(
+            <div>
+                <Header title={title} subtitle={subtitle}/>
+                <Action/>
+                <Options options={array} />
+                <AddOption/>
+            </div>
         );
-        ReactDOM.render(tempalate,appRoot);
+    }
 }
-reRender();
+class Header extends React.Component{
+    render(){
+        return (
+                <div>
+                    <h1>{this.props.title}</h1>
+                    <h2>{this.props.subtitle} </h2>
+                </div>
+                );
+    }
+}
+class Action extends React.Component{
+    getAction(){
+            alert('action');
+        }
+    render(){
+        return(
+               <div>
+                    <button onClick ={this.getAction} >What Should I Do</button>
+               </div>
+        );
+    }
+}
+class Options extends React.Component{
+    removeAll(){
+        alert('remove');
+    }
+    render(){
+        return(
+               
+                  <div>
+                  <button onClick ={this.removeAll}>Remove All</button>
+                  {this.props.options.map((ar)=><Option key={ar} arrayText={ar}/>
+                   
 
+                    )}
+                  </div>
 
+              
+        );
+
+    }
+}
+class Option extends React.Component{
+    render(){
+        return(
+            <div>
+            {this.props.arrayText}
+            </div>
+            
+        );
+    }
+}
+class AddOption extends React.Component{
+    additem (e){
+        e.preventDefault();
+        const op = e.target.elements.hamza.value.trim();
+        if(op)
+        {
+            alert(op);
+            
+        }
+      
+
+    }
+
+    render(){
+        return(
+
+            <form onSubmit={this.additem}>
+                <input type="text" name="hamza" />
+                <button>AddOption</button>
+            </form>
+        );
+
+    }
+}
+
+ReactDOM.render(<IndecisionApp/>,document.querySelector('#app'));
