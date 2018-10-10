@@ -38,8 +38,10 @@ let reRender =() =>{
             <p>{app.options.length}</p>
             <button onClick={removeAll}> Remove All </button>
             <ol>
-                <li>one</li>
-                <li>two</li>
+              {app.options.map((option)=>{
+                return <li key={option}>{option}</li>
+
+            })}
             </ol>
             <form onSubmit={onFormSubmit}>
                 <input type="text" name="option" />
